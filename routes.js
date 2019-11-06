@@ -1,29 +1,47 @@
-import * as usersController from "./controllers/user"
-// import sendResponse from './middlewares/sendResponse'
-// import checkToken from "./middlewares/checkToken"
-import * as authController from './controllers/auth'
-
-
-const checkToken = (a, b, n) => n()
+import validateRules from './validateRules'
+import validate from './middlewares/validate'
+import languages from './utils/languages'
+import countries from './utils/countries'
+import {handleAdminRegister} from './controllers/auth'
 
 const router = require('express-promise-router')()
 
+const config = {
+  price: {
+    items: {
+      standard:     {maxSpaces: 10,          maxFriends: 500,         cost: 49 },
+      professional: {maxSpaces: 50,          maxFriends: 2500,        cost: 169},
+      expert:       {maxSpaces: 'unlimited', maxFriends: 'unlimited', cost: 456},
+    }
+  },
+  countries,
+  languages,
+}
+
+
 module.exports = (app) => {
-  router.get('/api/', function(req, res, next) {
+  router.get('/', (req, res) => res.json({successfulLifecheck: true}))
+
+  router.get('/api/', function(req, res) {
     res.status(200).json({ok: true, message: 'Successful life-check'})
   })
 
+  router.get('/api/config', (req, res) => res.json(config))
+
   /* AUTH */
-  router.post('/api/auth/login', authController.login)
-
-
-  /* USERS */
-  router.get('/api/account', checkToken, usersController.getMany)
-  router.get('/api/account/:id', checkToken, usersController.getById)
-  router.post('/api/account/', checkToken, usersController.create)
-  router.put('/api/account/:id', checkToken, usersController.update)
-  router.delete('/api/account/:id', checkToken, usersController.destroy)
-
+  router.post(
+    '/api/auth/register/admin',
+    validate(validateRules.auth.register.admin),
+    handleAdminRegister
+  );
+  router.post(
+    '/api/auth/register/moderator',
+    validate(validateRules.auth.register.moderator)
+  );
+  router.post(
+    '/api/auth/register/donator',
+    validate(validateRules.auth.register.donator)
+  );
 
   /* USE ROUTER */
   app.use('/', router)

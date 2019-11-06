@@ -1,38 +1,50 @@
-import './db';
-require('dotenv').config();
+import './db'
+require('dotenv').config()
+const connect = require('connect')
+const vhost = require('vhost')
+const express = require('express')
+const cors = require('cors')()
+const cookieParser = require('cookie-parser')()
+const morgan = require('morgan')('dev', {
+  skip: (req, res) => req.path === '/json' // skip nodejs debug inspector spam
+})
 
-const express = require('express');
-const app = require('express')();
+const isProd = process.env.NODE_ENV === 'production'
+
+const subdomainApp = express()
+const app = express()
+
+subdomainApp.get('', (req, res) => {
+  console.log('request', req.vhost)
+  res.json('Dragabannnn harosh!!!')
+})
 
 function main() {
-  // doesn't call next() if use in chain below o_O
-  app.use(express.static(require('path').join(__dirname, 'public')));
-
-  app.use(
-    require('morgan')('dev'), // logger
-    express.json(),
-    express.urlencoded({extended: false}),
-    require('cookie-parser')(),
-    require('cors')(),
-  );
+  app.use( express.static(require('path').join(__dirname, 'public')) )
+  app.use(morgan) // logger
+  app.use(express.json())
+  app.use(express.urlencoded({extended: false}))
+  app.use(cookieParser)
+  app.use(cors) // @TODO: do we need cors in prod?
 
   // before api-declaring errorHandler
   app.use((err, request, response, next) => {
     console.log('Error before api declaring: ', err.message)
   })
 
-  require('./routes')(app);
+  app.use(vhost('*.localhost', subdomainApp)) // @TODO: dynamically declare localhost or prod domain?
 
-  // api errorHandler
+  require('./routes')(app)
+
   app.use((err, request, response, next) => {
-    console.log('Error in response')
+    console.log('Error in response:', err)
     response.json(err)
   })
 
-  console.log('Server runned at port 8000');
+  console.log('🚀 server ran at port 8000')
 }
 
 
-main();
+main()
 
 module.exports = app

@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-mongoose.connect('mongodb+srv://minmax:minty-max@cluster0-dgqwh.mongodb.net/4friends?retryWrites=true&w=majority', {useNewUrlParser: true})
+mongoose.connect('mongodb://localhost/4friends', {useNewUrlParser: true})
 
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
