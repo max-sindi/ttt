@@ -5,6 +5,7 @@ const vhost = require('vhost')
 const express = require('express')
 const cors = require('cors')()
 const cookieParser = require('cookie-parser')()
+
 const morgan = require('morgan')('dev', {
   skip: (req, res) => req.path === '/json' // skip nodejs debug inspector spam
 })

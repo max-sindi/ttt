@@ -3,20 +3,17 @@ import validate from './middlewares/validate'
 import languages from './utils/languages'
 import countries from './utils/countries'
 import {handleAdminRegister} from './controllers/auth'
+import {fetchPricingPlans} from './controllers/pricing'
 
 const router = require('express-promise-router')()
 
-const config = {
-  price: {
-    items: {
-      standard:     {maxSpaces: 10,          maxFriends: 500,         cost: 49 },
-      professional: {maxSpaces: 50,          maxFriends: 2500,        cost: 169},
-      expert:       {maxSpaces: 'unlimited', maxFriends: 'unlimited', cost: 456},
-    }
-  },
-  countries,
-  languages,
-}
+// const pricing = {
+//   items: [
+//     {maxSpaces: 10,          maxFriends: 500,         cost: 49 },
+//     {maxSpaces: 50,          maxFriends: 2500,        cost: 169, bestseller: true},
+//     {maxSpaces: 'unlimited', maxFriends: 'unlimited', cost: 456},
+//   ]
+// }
 
 
 module.exports = (app) => {
@@ -26,7 +23,9 @@ module.exports = (app) => {
     res.status(200).json({ok: true, message: 'Successful life-check'})
   })
 
-  router.get('/api/config', (req, res) => res.json(config))
+  router.get('/api/pricing/', fetchPricingPlans)
+
+
 
   /* AUTH */
   router.post(
@@ -42,6 +41,7 @@ module.exports = (app) => {
     '/api/auth/register/donator',
     validate(validateRules.auth.register.donator)
   );
+
 
   /* USE ROUTER */
   app.use('/', router)

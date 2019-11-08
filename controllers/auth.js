@@ -1,3 +1,5 @@
+import User from '../models/User'
+
 export const handleAdminRegister = async (request, response) => {
-  console.log('dada', request)
+
 }
