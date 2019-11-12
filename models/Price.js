@@ -8,4 +8,13 @@ const scheme = new mongoose.Schema({
   isBestseller: {type: Boolean, required: false },
 })
 
+// replace all '_id' with 'id'
+scheme.options.toJSON = {
+  transform: function(doc, ret) {
+    ret.id = ret._id
+    delete ret._id
+    delete ret.__v
+  }
+}
+
 export default mongoose.model('Price', scheme)

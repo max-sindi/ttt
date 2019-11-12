@@ -14,4 +14,14 @@ const scheme = new mongoose.Schema({
   template:         { type: String },
 })
 
+// replace all '_id' with 'id'
+scheme.options.toJSON = {
+  transform: function(doc, ret) {
+    ret.id = ret._id
+    delete ret._id
+    delete ret.__v
+  }
+}
+
+
 export default mongoose.model('Space', scheme)

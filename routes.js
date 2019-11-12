@@ -7,14 +7,6 @@ import {fetchPricingPlans} from './controllers/pricing'
 
 const router = require('express-promise-router')()
 
-// const pricing = {
-//   items: [
-//     {maxSpaces: 10,          maxFriends: 500,         cost: 49 },
-//     {maxSpaces: 50,          maxFriends: 2500,        cost: 169, bestseller: true},
-//     {maxSpaces: 'unlimited', maxFriends: 'unlimited', cost: 456},
-//   ]
-// }
-
 
 module.exports = (app) => {
   router.get('/', (req, res) => res.json({successfulLifecheck: true}))

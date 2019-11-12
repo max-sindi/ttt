@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start:prod": "NODE_ENV=production node ./bin/www",
-    "start:dev": "NODE_ENV=development nodemon --inspect ./bin/www"
+    "prod": "NODE_ENV=production node ./bin/www",
+    "dev": "NODE_ENV=development nodemon --inspect ./bin/www"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
