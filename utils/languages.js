@@ -1,14 +1,17 @@
-export default {
-  "cs": {
+export default [
+  {
     "name": "Czech",
-    "native": "Česky"
+    "native": "Česky",
+    code: "cs"
   },
-  "en": {
+  {
     "name": "English",
-    "native": "English"
+    "native": "English",
+    code: "en"
   },
-  "de": {
+  {
     "name": "German",
-    "native": "Deutsch"
+    "native": "Deutsch",
+    code: "de",
   }
-}
+]

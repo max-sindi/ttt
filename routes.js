@@ -16,6 +16,8 @@ module.exports = (app) => {
   })
 
   router.get('/api/pricing/', fetchPricingPlans)
+  router.get('/api/languages/', (req, res) => console.log('languages', languages) || res.json(languages))
+  router.get('/api/countries/', (req, res) => res.json(countries))
 
 
 
