@@ -1,6 +1,6 @@
 import '../db'
 import Price from '../models/Price'
-console.log('dada');
+
 (async function() {
   await Price.deleteMany();
   [

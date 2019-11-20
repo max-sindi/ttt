@@ -33,6 +33,7 @@ function main() {
     console.log('Error before api declaring: ', err.message)
   })
 
+  // subdomains for future
   app.use(vhost('*.localhost', subdomainApp)) // @TODO: dynamically declare localhost or prod domain?
 
   require('./routes')(app)
